@@ -13,6 +13,7 @@ function rolDeUsuario($idUsuario)
     $con = conectarBD();
     $rs = mysqli_query($con, "select Rol from usuarios where idUsuario=" . $idUsuario);
     $datoUrs = mysqli_fetch_object($rs);
+    mysqli_close($con);
     return $datoUrs->Rol;
 }
 

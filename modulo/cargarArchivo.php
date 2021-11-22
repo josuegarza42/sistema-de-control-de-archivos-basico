@@ -4,26 +4,41 @@ include("funciones.php");
 $msg = "";
 // usuario autenticado
 if (!isset($_SESSION['idU'])) {
-    header();
+    header("location:" . $ruta . "portada.php");
 }
 // usuario autorizado
 $c = conectarBD();
-$qry = "select Rol from usuarios where idUsuarios =" . $_SESSION["idU"];
-$rs = mysqli_query($c, $qry);
-$RolUsr = mysqli_fetch_array($rs);
-//si no es admi sacalo
-if($RolUsr["Rol"]!= "Administrador"){
+// $qry = "select Rol from usuarios where idUsuarios =" . $_SESSION["idU"];
+// $rs = mysqli_query($c, $qry);
+// $RolUsr = mysqli_fetch_array($rs);
+// //si no es admi sacalo
+// if ($RolUsr["Rol"] != "Administrador") {
 
-    header();//sacalo
-}
+//     header("location:" . $ruta . "portada.php");
+// }
 //si no esta proporcionado el titulo
-if (!isset($_POST['txtTitulo'])) {
-    header();
-}
-// verificar que se cargo el archivo en el server
-if($_FILES["archivo"]){
-    
+if (isset($_POST['txtTitulo'])) {
 
+    // verificar que se cargo el archivo en el server
+    if (!empty($_FILES["archivo"]["tmp_name"])) {
+
+        $nombre = $_FILES["archivo"]["name"];
+        $tipo = $_FILES["archivo"]["type"];
+        $nombre_temporal = $_FILES["archivo"]["tmp_name"];
+        $tamanio = $_FILES["archivo"]["size"];
+        $titulo = $_POST["txtTitulo"];
+        // recupera el contenido del archivo
+        $fp = fopen($nombre_temporal, "r");
+        $contenido = fread($fp, $tamanio);
+        fclose($fp);
+
+        // transformar los caracteres especiales
+        $contenido = addslashes($contenido);
+        // insertar archivo a la bd
+        $qry = "insert into documentos (Titulo, FechaCargado, idUsuario, Tipo, NombreOriginal, Contenido) values ('$titulo', '16/11/2021', " . $_SESSION['idU'] . ",'$tipo','$nombre','$contenido')";
+        mysqli_query($c, $qry);
+        header("location:" . $ruta . "portada.php");
+    }
 }
 
 ?>

@@ -19,9 +19,9 @@ if (isset($_SESSION['idU'])) {
     $rolUsr = rolDeUsuario($_SESSION["idU"]);
 
     if ($rolUsr == "Administrador") {
-        $qry = "select d.*, u.Usuario, from Usuarios as u inner join documentos as d on u.idUsuario=d.idUsuario";
+        $qry = "Select d.*, u.Usuario, from usuario as u inner join documentos as d on u.idUsuario=d.idUsuario";
     } else {
-        $qry = "select d.*, u.Usuario, from Usuarios as u inner join documentos as d on u.idUsuario=d.idUsuario Where d.idUsuario= " . $_SESSION["idU"];
+        $qry = "Select d.*, u.Usuario, from usuario as u inner join documentos as d on u.idUsuario=d.idUsuario Where d.idUsuario= " . $_SESSION["idU"];
     }
 
     $c = conectarBD();
@@ -36,14 +36,16 @@ if (isset($_SESSION['idU'])) {
         echo  "<td>TITULO DEL ARCHIVO</td>";
         echo  "<td>FECHA</td>";
         echo  "<td>NOMBRE DEL ARCHIVO</td>";
+        echo  "<td> Opciones </td>";
         echo  "</tr>";
 
         while ($datos = mysqli_fetch_array($rs)) {
             echo  "<tr>";
-            echo  "<td> ".$datos["Usuarios"]." </td>";
-            echo  "<td> ".$datos["Titulo"]."</td>";
-            echo  "<td>".$datos["FechaCargado"]."</td>";
-            echo  "<td> ".$datos["NombreOriginal"]." </td>";
+            echo  "<td> " . $datos["Usuario"] . " </td>";
+            echo  "<td> " . $datos["Titulo"] . "</td>";
+            echo  "<td>" . $datos["FechaCargado"] . "</td>";
+            echo  "<td> " . $datos["NombreOriginal"] . " </td>";
+            echo  "<td> <a href=\"eliminarArchivo.php?idA=" . $datos["idDocumento"] . "\">Eliminar</a>  </td>";
             echo  "</tr>";
         }
         echo  "</table>";
