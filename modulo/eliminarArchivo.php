@@ -8,15 +8,12 @@ if (!isset($_SESSION['idU'])) {
     header("location:" . $ruta . "portada.php");
 }
 
-// 
-
 // verificar que se envio el id del documento a eliminar
-
-if (isset($_GET['idA']) && $_GET['idA'] != "") {
+if (isset($_GET["idA"]) && $_GET["idA"] != "") {
     if (rolDeUsuario($_SESSION["idU"]) == "Administrador") {
-        $qry = "delete from documentos where idDocumento" . $_GET["idA"];
+        $qry = "delete from documentos where idDocumento=" . $_GET["idA"];
     } else {
-        $qry = "delete from documentos where idDocumento" . $_GET["idA"] . "and idUsuario " . $_SESSION["idU"];
+        $qry = "delete from documentos where idDocumento=" . $_GET["idA"] . "and idUsuario=" . $_SESSION["idU"];
     }
 
     $c = conectarBD();

@@ -38,5 +38,4 @@ $rs = mysqli_query($conn, $consulta);
 
 header("location:http://localhost/modulo/registro.php?err=4");
 
-
 ?>

@@ -2,7 +2,6 @@
 function conectarBD()
 {
     // CONEXION CON LA base de datos
-
     $conn = mysqli_connect("localhost", "root", "", "deswebdocumentos");
     return $conn;
 }
@@ -16,9 +15,7 @@ function rolDeUsuario($idUsuario)
     mysqli_close($con);
     return $datoUrs->Rol;
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

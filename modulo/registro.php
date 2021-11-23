@@ -41,6 +41,7 @@ if (isset($_GET['err']) && $_GET['err'] != "") {
     <h2 class="tituloSistema">FORMULARIO DE REGISTRO</h2>
 
     <form method="get" action="registraUsuario.php" onsubmit=" return validaFRM()">
+    
         <?php
         if ($msg != "") {
             echo "<div id=\"txtMsg\"class=\"err\">$msg</div>";

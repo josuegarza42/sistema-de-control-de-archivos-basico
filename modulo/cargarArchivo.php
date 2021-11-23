@@ -49,7 +49,6 @@ if (isset($_POST['txtTitulo'])) {
     function validaFRM() {
         if (document.getElementById("txtTitulo").value == "" ||
             document.getElementById("archivo").value == "") {
-
             alert("todos los datos deben de estar llenos");
             return false;
         } else {
@@ -75,7 +74,6 @@ if (isset($_POST['txtTitulo'])) {
         <input type="submit" value="Cargar archivo">
         <input type="reset" value="Cancelar"> <br>
         <button><a href="portada.php">Regresar</a></button>
-
     </form>
 </body>
 

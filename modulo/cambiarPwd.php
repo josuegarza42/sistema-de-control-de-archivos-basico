@@ -6,7 +6,6 @@ $msg = "";
 if (!isset($_SESSION["idU"])) {
     header("location:" . $ruta . "login.php");
 }
-
 // VALIDACION SERVIDOR
 // SI SE PASARON LOS DATOS POR FORMULARIO
 if (isset($_POST["txtPwdActual"]) && isset($_POST["txtNewPwd"]) &&  isset($_POST["txtReNewPwd"])) {
@@ -21,7 +20,6 @@ if (isset($_POST["txtPwdActual"]) && isset($_POST["txtNewPwd"]) &&  isset($_POST
         mysqli_close($c);
     }
 }
-
 ?>
 
 <!-- Validacion por CLIENTE -->
@@ -30,7 +28,6 @@ if (isset($_POST["txtPwdActual"]) && isset($_POST["txtNewPwd"]) &&  isset($_POST
         if (document.getElementById("txtPwdActual").value == "" ||
             document.getElementById("txtNewPwd").value == "" ||
             document.getElementById("txtReNewPwd").value == "") {
-
             alert("todos los datos deben de estar llenos");
             return false;
         } else if (document.getElementById("txtNewPwd").value != document.getElementById("txtReNewPwd").value) {
@@ -47,8 +44,8 @@ if (isset($_POST["txtPwdActual"]) && isset($_POST["txtNewPwd"]) &&  isset($_POST
 <body>
 
     <h2 class="tituloSistema">FORMULARIO DE ACTUALIZACION DE CONTRASEÑA</h2>
-
     <form method="post" action="cambiarPwd.php" onsubmit=" return validaFRM()">
+    
         <?php
         if ($msg != "") {
             echo "<div id=\"txtMsg\"class=\"err\">$msg</div>";

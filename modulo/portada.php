@@ -29,7 +29,6 @@ if (isset($_SESSION['idU'])) {
     // resultado de la consulta
     if (mysqli_num_rows($rs) > 0) {
         // si hay documentos guardados
-
         echo "<table>";
         echo  "<tr>";
         echo  "<td>USUARIO</td>";
@@ -58,10 +57,8 @@ if (isset($_SESSION['idU'])) {
 
     <body>
         <h1 class="tituloSistema"> Sistema de control de archivos</h1>
-
         <?php
         // espacion de autenticacion
-
         ?>
         <p>NECESITAS AUTENTICARTE</p>
         <form method="POST" action="login.php">
@@ -71,10 +68,8 @@ if (isset($_SESSION['idU'])) {
             <input type="reset" name="" id="" value="cancelar"> <br>
             <a href="registro.php">Si no esta registrado da click aqui</a>
         </form>
-
     <?php
 }
-
     ?>
     </body>
 
