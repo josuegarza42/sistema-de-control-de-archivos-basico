@@ -1,66 +1,72 @@
 <?php
 session_start();
 include("funciones.php");
-// si esta autenticado
+// si NO esta autenticado
+if (!isset($_SESSION['idU'])) {
+    header("location:" . $ruta . "portada.php");
+}
+// AUTORIZACION
+$rolUsr = rolDeUsuario($_SESSION["idU"]);
+// SI NO ES ADMI SACALO
+if ($rolUsr != "Administrador") {
+    header("location:" . $ruta . "portada.php");
+}
+
 if (isset($_SESSION['idU'])) {
     echo "<h2 class='bienvenida'>BIENVENIDO " . $_SESSION['nombre'] . " </h2>";
-
-
-    // listamos los archivos cargados por el usuario
-    //recuperar todas las columnas de la tabla documentos
-    // recuperar nombre usuarios y rol de usuarios
-    // resperando llave foranea
-    // si en roles general
-    // solo se muestran los doc de usuario autentificado
-    // si en roles es admi
-    // todos los documentos
-
-    // recuperamos el rol
-    $rolUsr = rolDeUsuario($_SESSION["idU"]);
 
     if ($rolUsr == "Administrador") {
         // COLOCAR EL MENU ADMINISTRADOR
         echo "<div class=\"opcionesMenu\">
-         <a href=\"cargarArchivo.php\">  [cargar archivo]</a> 
+        <a href=\"cargarArchivo.php\">  [cargar archivo]</a> 
         | <a href=\"cambiarPwd.php\">[cambiar contraseña]</a>  
         | <a href=\"verUsuarios.php\">[Listar usuario]</a>  
         | <a href='logout.php'> [salir del sistema]</a> </div>";
-      
 
-
-        $qry = "Select d.*, u.Usuario from usuarios as u inner join documentos as d on u.idUsuario=d.idUsuario";
-    } else {
-
-        // MENU GRAL
-        echo "<div class=\"opcionesMenu\"> <a href=\"cargarArchivo.php\">
-        [cargar archivo]</a>  | <a href=\"cambiarPwd.php\">
-        [cambiar contraseña]</a>  | <a href='logout.php'>
-        [salir del sistema]</a> </div>";
-
-        $qry = "Select d.*, u.Usuario from usuarios as u inner join documentos as d on u.idUsuario=d.idUsuario Where d.idUsuario= " . $_SESSION["idU"];
+        echo "<h3>LISTAR LOS USUARIOS DEL SISTEMA</h3>";
+        $qry = "Select idUsuario, Usuario, Rol, Email from usuarios";
     }
     // echo $qry;
     $c = conectarBD();
     $rs = mysqli_query($c, $qry);
     // resultado de la consulta
     if (mysqli_num_rows($rs) > 0) {
-        // si hay documentos guardados
+        // si hay USUARIOS
         echo "<table>";
         echo  "<tr>";
         echo  "<td>USUARIO</td>";
-        echo  "<td>TITULO DEL ARCHIVO</td>";
-        echo  "<td>FECHA</td>";
-        echo  "<td>NOMBRE DEL ARCHIVO</td>";
-        echo  "<td> Opciones </td>";
+        echo  "<td>ROL</td>";
+        echo  "<td>CORREO ELECTRONICO</td>";
+        echo  "<td>opciones</td>";
         echo  "</tr>";
 
         while ($datos = mysqli_fetch_array($rs)) {
             echo  "<tr>";
             echo  "<td> " . $datos["Usuario"] . " </td>";
-            echo  "<td> " . $datos["Titulo"] . "</td>";
-            echo  "<td>" . $datos["FechaCargado"] . "</td>";
-            echo  "<td> " . $datos["NombreOriginal"] . " </td>";
-            echo  "<td> <a href=\"eliminarArchivo.php?idA=" . $datos["idDocumento"] . "\">Eliminar</a>  </td>";
+            echo  "<td> ";
+
+?>
+            <form method="get" action="actualizaRol.php">
+                <select name="txtRol" id="txtRol">
+                    <?php
+                    if ($datos["Rol"] == "Administrador") {
+                        echo "<option selected value=\"Administrador\">Administrador</option>";
+                        echo "<option value=\"General\">General</option>";
+                    } else if ($datos["Rol"] == "General") {
+                        echo "<option value=\"Administrador\">Administrador</option>";
+                        echo "<option selected value=\"General\">General</option>";
+                    }
+                    ?>
+                </select>
+                <input type="hidden" value="<?php echo $datos["idUsuario"] ?>" name="txtUsuario">
+                <input type="submit" value="Actualizar">
+            </form>
+    <?php
+
+            echo "</td>";
+            echo  "<td>" . $datos["Email"] . "</td>";
+
+            echo  "<td> <a href=\"eliminarUsuario.php?idA=" . $datos["idUsuario"] . "\">Eliminar</a>  </td>";
             echo  "</tr>";
         }
         echo  "</table>";
@@ -69,7 +75,7 @@ if (isset($_SESSION['idU'])) {
         echo "ACTUALMENTE NO HAY DOCUMENTOS GUARDADOS";
     }
 } else {
-?>
+    ?>
 
     <body>
         <h1 class="tituloSistema"> Sistema de control de archivos</h1>

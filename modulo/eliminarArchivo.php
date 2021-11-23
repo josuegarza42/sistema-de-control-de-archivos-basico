@@ -14,6 +14,7 @@ if (isset($_GET["idA"]) && $_GET["idA"] != "") {
         $qry = "delete from documentos where idDocumento=" . $_GET["idA"];
     } else {
         $qry = "delete from documentos where idDocumento=" . $_GET["idA"] . "and idUsuario=" . $_SESSION["idU"];
+        // TODO USUARIO NO PUEDE ELIMINAR SU DOCUMENTO AUN 
     }
 
     $c = conectarBD();
@@ -21,3 +22,4 @@ if (isset($_GET["idA"]) && $_GET["idA"] != "") {
     mysqli_close($c);
     header("location:" . $ruta . "portada.php");
 }
+?>
