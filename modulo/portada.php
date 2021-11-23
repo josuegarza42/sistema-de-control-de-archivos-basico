@@ -19,11 +19,11 @@ if (isset($_SESSION['idU'])) {
     $rolUsr = rolDeUsuario($_SESSION["idU"]);
 
     if ($rolUsr == "Administrador") {
-        $qry = "Select d.*, u.Usuario, from usuario as u inner join documentos as d on u.idUsuario=d.idUsuario";
+        $qry = "Select d.*, u.Usuario from usuarios as u inner join documentos as d on u.idUsuario=d.idUsuario";
     } else {
-        $qry = "Select d.*, u.Usuario, from usuario as u inner join documentos as d on u.idUsuario=d.idUsuario Where d.idUsuario= " . $_SESSION["idU"];
+        $qry = "Select d.*, u.Usuario from usuarios as u inner join documentos as d on u.idUsuario=d.idUsuario Where d.idUsuario= " . $_SESSION["idU"];
     }
-
+    // echo $qry;
     $c = conectarBD();
     $rs = mysqli_query($c, $qry);
     // resultado de la consulta

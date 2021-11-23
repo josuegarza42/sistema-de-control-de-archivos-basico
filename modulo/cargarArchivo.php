@@ -35,7 +35,8 @@ if (isset($_POST['txtTitulo'])) {
         // transformar los caracteres especiales
         $contenido = addslashes($contenido);
         // insertar archivo a la bd
-        $qry = "insert into documentos (Titulo, FechaCargado, idUsuario, Tipo, NombreOriginal, Contenido) values ('$titulo', '16/11/2021', " . $_SESSION['idU'] . ",'$tipo','$nombre','$contenido')";
+        $qry = "insert into documentos (Titulo, FechaCargado, idUsuario, Tipo, NombreOriginal, Contenido) values
+         ('$titulo', '2021/11/16', " . $_SESSION['idU'] . ",'$tipo','$nombre','$contenido')";
         mysqli_query($c, $qry);
         header("location:" . $ruta . "portada.php");
     }
