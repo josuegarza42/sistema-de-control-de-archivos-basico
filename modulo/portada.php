@@ -21,12 +21,10 @@ if (isset($_SESSION['idU'])) {
     if ($rolUsr == "Administrador") {
         // COLOCAR EL MENU ADMINISTRADOR
         echo "<div class=\"opcionesMenu\">
-         <a href=\"cargarArchivo.php\">  [cargar archivo]</a> 
+        <a href=\"cargarArchivo.php\">  [cargar archivo]</a> 
         | <a href=\"cambiarPwd.php\">[cambiar contraseña]</a>  
         | <a href=\"verUsuarios.php\">[Listar usuario]</a>  
         | <a href='logout.php'> [salir del sistema]</a> </div>";
-      
-
 
         $qry = "Select d.*, u.Usuario from usuarios as u inner join documentos as d on u.idUsuario=d.idUsuario";
     } else {
@@ -59,8 +57,19 @@ if (isset($_SESSION['idU'])) {
             echo  "<td> " . $datos["Usuario"] . " </td>";
             echo  "<td> " . $datos["Titulo"] . "</td>";
             echo  "<td>" . $datos["FechaCargado"] . "</td>";
-            echo  "<td> " . $datos["NombreOriginal"] . " </td>";
-            echo  "<td> <a href=\"eliminarArchivo.php?idA=" . $datos["idDocumento"] . "\">Eliminar</a>  </td>";
+            // echo  "<td> " . $datos["NombreOriginal"] . " </td>";
+
+            $pos = strpos($datos["Tipo"],"image/");
+            if($pos===false){
+                // no es una imagen
+                echo "<td> <a href=\"descarga.php?idA=".$datos["idDocumento"]."\">".$datos["NombreOriginal"]."</a></td>";
+            }else{
+                // si es una imagen
+                echo "<td><img style=\"width:100px; heigth:100px\" 
+                alt=\" ".$datos["NombreOriginal"]."\"  src=\"imagen.php?idA=".$datos["idDocumento"]."\"></td>";
+                   
+            }
+            echo  "<td> <a href=\"eliminarArchivo.php?idA=" . $datos["idDocumento"] . "\">Eliminar</a></td>";
             echo  "</tr>";
         }
         echo  "</table>";

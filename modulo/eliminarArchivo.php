@@ -13,13 +13,14 @@ if (isset($_GET["idA"]) && $_GET["idA"] != "") {
     if (rolDeUsuario($_SESSION["idU"]) == "Administrador") {
         $qry = "delete from documentos where idDocumento=" . $_GET["idA"];
     } else {
-        $qry = "delete from documentos where idDocumento=" . $_GET["idA"] . "and idUsuario=" . $_SESSION["idU"];
+        
+       echo $qry = "delete from documentos where idDocumento=" . $_GET["idA"] . " and idUsuario=" . $_SESSION["idU"];
         // TODO USUARIO NO PUEDE ELIMINAR SU DOCUMENTO AUN 
     }
 
     $c = conectarBD();
     mysqli_query($c, $qry);
     mysqli_close($c);
-    header("location:" . $ruta . "portada.php");
+    // header("location:" . $ruta . "portada.php");
 }
 ?>
